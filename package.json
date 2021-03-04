@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll",
-    "test:staged": "jest --passWithNotTests"
+    "test": "jest --watch --silent --verbose --colors --noStackTrace",
+    "test:staged": "jest --passWithNotTests --findRelatedTests --silent --noStackTrace"
   },
   "standard": {
     "env": ["jest"]
