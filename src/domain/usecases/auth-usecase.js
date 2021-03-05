@@ -25,18 +25,13 @@ module.exports = class AuthUseCase {
     }
 
     const user = await this.loadUserByEmailRepository.load(email)
+    const isValid = user && await this.encrypter.compare(password, user.password)
 
-    if (!user) {
-      return null
+    if (isValid) {
+      const token = await this.tokenGenerator.generate(user.id)
+      return token
     }
 
-    const isValid = await this.encrypter.compare(password, user.password)
-
-    if (!isValid) {
-      return null
-    }
-
-    const token = await this.tokenGenerator.generate(user.id)
-    return token
+    return null
   }
 }
