@@ -5,5 +5,7 @@ module.exports = {
 
   testEnvironment: 'node',
 
-  collectCoverageFrom: ['**/src/**/*.js']
+  collectCoverageFrom: ['**/src/**/*.js'],
+
+  preset: '@shelf/jest-mongodb'
 }
