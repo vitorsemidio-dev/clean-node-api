@@ -6,7 +6,14 @@ class LoadUserByEmailRepository {
   }
 
   async load (email) {
-    const user = await this.userModel.findOne({ email })
+    const user = await this.userModel.findOne(
+      { email },
+      {
+        projection: {
+          password: 1
+        }
+      }
+    )
     return user
   }
 }
@@ -21,7 +28,7 @@ const makeSut = () => {
     sut,
     userModel
   }
-}
+};
 
 describe('LoadUserByEmail Repository', () => {
   beforeAll(async () => {
@@ -52,9 +59,17 @@ describe('LoadUserByEmail Repository', () => {
   test('Should return an user if user is found', async () => {
     const { sut, userModel } = makeSut()
 
-    await userModel.insertOne({ email: 'valid_email@mail.com' })
+    const fakeUser = await userModel.insertOne({
+      _id: 'any_id',
+      email: 'valid_email@mail.com',
+      password: 'hashed_password'
+    })
+
     const user = await sut.load('valid_email@mail.com')
 
-    expect(user.email).toBe('valid_email@mail.com')
+    expect(user).toEqual({
+      _id: fakeUser.ops[0]._id,
+      password: fakeUser.ops[0].password
+    })
   })
 })
