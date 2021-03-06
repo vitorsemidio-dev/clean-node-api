@@ -7,7 +7,7 @@ module.exports = {
 
   collectCoverageFrom: [
     '**/src/**/*.js',
-    '!<rootDir>/src/main/index.js'
+    '!<rootDir>/src/main/**'
   ],
 
   preset: '@shelf/jest-mongodb'
