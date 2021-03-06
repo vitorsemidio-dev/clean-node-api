@@ -6,9 +6,9 @@ module.exports = class LoadUserByEmailRepository {
     if (!email) {
       throw new MissingParamError('email')
     }
-    const db = await MongoHelper.getDb()
+    const userModel = await MongoHelper.getCollection('users')
 
-    const user = db.collection('users').findOne(
+    const user = userModel.findOne(
       { email },
       {
         projection: {
