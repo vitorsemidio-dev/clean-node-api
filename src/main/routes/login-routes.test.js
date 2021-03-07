@@ -6,7 +6,7 @@ const MongoHelper = require('../../infra/helpers/mongo-helper')
 
 let userModel
 
-fdescribe('Login Routes', () => {
+describe('Login Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
     userModel = await MongoHelper.getCollection('users')
@@ -33,5 +33,15 @@ fdescribe('Login Routes', () => {
         password: 'hashed_password'
       })
       .expect(200)
+  })
+
+  test('Should return 401 when invalid credentials are provided', async () => {
+    await request(app)
+      .post('/api/login')
+      .send({
+        email: 'invalid@mail.com',
+        password: 'invalid_hashed_password'
+      })
+      .expect(401)
   })
 })
